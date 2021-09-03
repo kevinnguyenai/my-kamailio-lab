@@ -1,0 +1,53 @@
+version: '2.3'
+
+
+services:
+   asterisk:
+     image: andrius/asterisk
+     deploy:
+       mode: replicated
+       replicas: 3
+     networks:
+       local:
+         aliases:
+           - asterisk.local
+     
+   
+   kamailio_dispatcher:
+     depends_on:
+       - db
+       - asterisk
+     build:
+      context: ${PWD}/kamailio
+      dockerfile: Dockerfile
+     ports:
+       - "5060:5060/udp"
+     restart: always
+     networks:
+       local:
+         aliases:
+           - kamailio_dispatcher.local
+
+   db:
+     image: mysql:5.7
+     volumes:
+       - /tmp/dbdata:/var/lib/mysql
+       - ./containers/mysql/resources:/docker-entrypoint-initdb.d/
+     ports:
+       - "3306"
+     environment:
+       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+       - MYSQL_USER=kamailio
+       - MYSQL_PASSWORD=kamailiorw
+       - MYSQL_DATABASE=kamailio
+     healthcheck:
+       test: mysql --user=root -e "select * from mysql.user"
+       timeout: 45s
+       retries: 5
+     networks:
+       local:
+         aliases:
+           - db.local
+
+networks:
+  local:
