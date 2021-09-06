@@ -1,5 +1,5 @@
 #Kamailio Test Stuff
-FROM kamailio/kamailio:5.3.3-stretch
+FROM kamailio/kamailio:5.5.0-stretch
 
 
 #Add Additional Modules
@@ -7,7 +7,7 @@ FROM kamailio/kamailio:5.3.3-stretch
 #Copy the config file onto the Filesystem of the Docker instance
 COPY kamailio.cfg /etc/kamailio/
 COPY dispatcher.list /etc/kamailio/
-
+COPY kamctlrc /etc/kamailio/
 
 #Print out the current IP Address info
 RUN ip add

@@ -3,10 +3,12 @@ version: '2.3'
 
 services:
    asterisk:
-     image: andrius/asterisk
+     image: andrius/asterisk:debian-15-current
      deploy:
        mode: replicated
-       replicas: 3
+       replicas: 1
+     ports:
+       - "5060:5060"
      networks:
        local:
          aliases:
@@ -22,6 +24,7 @@ services:
       dockerfile: Dockerfile
      ports:
        - "5060:5060/udp"
+       - "5060:5060/tcp"
      restart: always
      networks:
        local:
@@ -51,3 +54,6 @@ services:
 
 networks:
   local:
+volumes:
+  asterisk_conf:
+  asterisk_spool:

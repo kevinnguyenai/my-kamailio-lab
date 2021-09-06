@@ -1,0 +1,46 @@
+{
+	NRSETS: 1
+	RECORD: {
+		SET: {
+			ID: 1
+			TARGETS: {
+				DEST: {
+					URI: sip:my-kamailio-lab_asterisk_1:5060
+					FLAGS: AP
+					PRIORITY: 0
+					LATENCY: {
+						AVG: 1.350000
+						STD: 1.039000
+						EST: 1.129000
+						MAX: 3
+						TIMEOUT: 0
+					}
+				}
+                                DEST: {
+                                        URI: sip:my-kamailio-lab_asterisk_2:5060
+                                        FLAGS: AP
+                                        PRIORITY: 0
+                                        LATENCY: {
+                                                AVG: 1.150000
+                                                STD: 1.039000
+                                                EST: 0.953000
+                                                MAX: 3
+                                                TIMEOUT: 0
+                                        }
+                                }
+                                DEST: {
+                                        URI: sip:my-kamailio-lab_asterisk_3:5060
+                                        FLAGS: AP
+                                        PRIORITY: 0
+                                        LATENCY: {
+                                                AVG: 1.20000
+                                                STD: 1.039000
+                                                EST: 1.011000
+                                                MAX: 3
+                                                TIMEOUT: 0
+                                        }
+                                }
+			}
+		}
+	}
+}

@@ -247,7 +247,7 @@ voicemail.srv_port = "5060" desc "VoiceMail Port"
 ####### Modules Section ########
 
 /* set paths to location of modules */
-# mpath="/usr/local/lib/kamailio/modules/"
+# mpath="/usr/lib/x86_64-linux-gnu/kamailio/modules/"
 
 #!ifdef WITH_MYSQL
 loadmodule "db_mysql.so"
@@ -474,7 +474,7 @@ modparam("usrloc", "nat_bflag", FLB_NATB)
 
 #!ifdef WITH_TLS
 # ----- tls params -----
-modparam("tls", "config", "/usr/local/etc/kamailio/tls.cfg")
+modparam("tls", "config", "/etc/kamailio/tls.cfg")
 #!endif
 
 #!ifdef WITH_ANTIFLOOD

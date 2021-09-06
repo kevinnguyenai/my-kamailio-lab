@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ruleset name="cmdlineargs">
+    <description>The default command line arguments</description>
+
+    <file>src</file>
+    
+    <arg name="extensions" value="php"/>  
+        
+    <rule ref="phpcs/PHPAMI"/>
+    
+    <config name="php_version" value="50400"/>           
+</ruleset>

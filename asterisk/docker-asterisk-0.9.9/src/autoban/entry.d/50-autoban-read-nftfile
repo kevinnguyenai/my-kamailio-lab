@@ -1,0 +1,48 @@
+#!/bin/sh
+#
+# 50-autoban-read-nftfile
+#
+# Load NFT state from file.
+#
+
+#
+# Configuration
+# Note that the templates are in /etc/nftables and the actual state file is kept
+# in /var/lib/nftables, which might be perceived to be counter intuitive.
+#
+source docker-common.sh
+
+DOCKER_NFT_DIR=${DOCKER_NFT_DIR-/var/lib/nftables}
+DOCKER_SEED_NFT_DIR=${DOCKER_SEED_NFT_DIR-/etc/nftables}
+DOCKER_NFT_FILE=${DOCKER_NFT_FILE-autoban.nft}
+
+#
+# Make sure that we have the required directory structure in place under
+# DOCKER_PERSIST_DIR. It will be missing if we mount an empty volume there.
+#
+
+mkdir -p ${DOCKER_PERSIST_DIR}${DOCKER_NFT_DIR}
+
+#
+# If DOCKER_NFT_DIR is empty, initialize it with files from
+# DOCKER_SEED_NFT_DIR. We don't want to overwrite any files,
+# but we only have "cp -u" (only copy newer) in busybox.
+# The directory should be empty when we try to copy,
+# so this is just an extra precaution.
+#
+
+if [ -z "$(ls -A $DOCKER_NFT_DIR 2>/dev/null)" ]; then
+	dc_log 5 "Seeding nft configuration."
+	cp -p -u $DOCKER_SEED_NFT_DIR/$DOCKER_NFT_FILE $DOCKER_NFT_DIR
+fi
+
+#
+# If nft_file exists have NFT import it
+#
+
+nft_file=$DOCKER_NFT_DIR/$DOCKER_NFT_FILE
+if [ -f "$nft_file" ]; then
+	dc_log 5 "Importing $nft_file."
+	nft flush ruleset
+	nft -f ${nft_file}
+fi
