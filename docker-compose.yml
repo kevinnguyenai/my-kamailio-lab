@@ -38,9 +38,6 @@ services:
        - ./pulse1:/run/pulse:rshared          # Use host audio
        - /etc/localtime:/etc/localtime:ro    # Use host timezone     
      ports:
-       - "5060:5060/udp"
-       - "5061:5061/tcp"
-       - "5080:5080/udp"
        - "10000-10009:10000-10009/udp"
      deploy:
        mode: replicated
@@ -66,6 +63,8 @@ services:
        - tele_conf2:/srv                      # Persistent storage
        - ./pulse2:/run/pulse:rshared          # Use host audio
        - /etc/localtime:/etc/localtime:ro    # Use host timezone     
+     ports:
+       - "10010-10019:10010-10019/udp"
      deploy:
        mode: replicated
        replicas: 1
@@ -90,6 +89,8 @@ services:
        - tele_conf3:/srv                      # Persistent storage
        - ./pulse3:/run/pulse:rshared          # Use host audio
        - /etc/localtime:/etc/localtime:ro    # Use host timezone     
+     ports:
+       - "10020-10029:10020-10029/udp"
      deploy:
        mode: replicated
        replicas: 1
@@ -106,8 +107,10 @@ services:
        - asterisk2
        - asterisk3
      build:
-      context: ${PWD}/kamailio
-      dockerfile: Dockerfile
+       context: ${PWD}/kamailio
+       dockerfile: Dockerfile
+     volumes:
+       - dispatcher_conf:/etc/kamailio/
      ports:
        - "5060:5060/udp"
        - "5060:5060/tcp"
@@ -127,6 +130,8 @@ services:
        - MYSQL_USER=kamailio
        - MYSQL_PASSWORD=kamailiorw
        - MYSQL_DATABASE=kamailio
+     ports:
+       - "3306"
      healthcheck:
        test: mysql --user=root -e "select * from mysql.user"
        timeout: 45s
@@ -139,6 +144,7 @@ services:
 networks:
   local:
 volumes:
+  dispatcher_conf:
   asterisk_conf:
   asterisk_spool:
   tele_conf_base:
