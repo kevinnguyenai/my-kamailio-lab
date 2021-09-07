@@ -1,5 +1,5 @@
 ARG	DIST=alpine
-ARG	REL=latest
+ARG	REL=3.13.6
 
 
 #

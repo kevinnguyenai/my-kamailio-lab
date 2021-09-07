@@ -5,7 +5,7 @@
 
 -include    *.mk
 
-BLD_ARG  ?= --build-arg DIST=alpine --build-arg REL=3.13
+BLD_ARG  ?= --build-arg DIST=alpine --build-arg REL=3.13.6
 BLD_REPO ?= fgst/asterisk
 BLD_VER  ?= latest
 BLD_TGT  ?= full

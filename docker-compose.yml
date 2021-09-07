@@ -1,8 +1,56 @@
-version: '2.3'
+version: '3'
 
 
 services:
    asterisk:
+     image: andrius/asterisk:alpine_glibc-18.x
+     volumes:
+       - tele_conf_base:/etc/asterisk/            # Persistent storage
+       - tele_spool_base:/var/spool/asterisk/
+       - /etc/localtime:/etc/localtime:ro    # Use host timezone       
+     ports:
+       - "5060:5060/udp"
+       - "5061:5061/tcp"
+       - "10000-10009:10000-10009/udp"
+     deploy:
+       mode: replicated
+       replicas: 1
+     networks:
+       local:
+         aliases:
+           - asterisk.local
+
+
+   asterisk1:
+     image: fgst/asterisk:full
+     cap_add:
+       - sys_ptrace                          # Only here to help testing
+       - net_admin                           # Allow NFT, used by AutoBan
+       - net_raw                             # Allow NFT, used by AutoBan
+     environment:
+       - SYSLOG_LEVEL=${SYSLOG_LEVEL-4}      # Logging
+       - HOSTNAME=${TELE_SRV-tele}.${DOMAIN-docker.localhost}
+       - PULSE_SERVER=unix:/run/pulse/socket # Use host audio
+       - PULSE_COOKIE=/run/pulse/cookie      # Use host audio
+       - WEBSMSD_PORT=${WEBSMSD_PORT-80}     # WEBSMSD internal port
+     volumes:
+       - tele_conf1:/srv                      # Persistent storage
+       - ./pulse1:/run/pulse:rshared          # Use host audio
+       - /etc/localtime:/etc/localtime:ro    # Use host timezone     
+     ports:
+       - "5060:5060/udp"
+       - "5061:5061/tcp"
+       - "5080:5080/udp"
+       - "10000-10009:10000-10009/udp"
+     deploy:
+       mode: replicated
+       replicas: 1
+     networks:
+       local:
+         aliases:
+           - asterisk1.local
+
+   asterisk2:
      image: fgst/asterisk:base
      cap_add:
        - sys_ptrace                          # Only here to help testing
@@ -15,22 +63,48 @@ services:
        - PULSE_COOKIE=/run/pulse/cookie      # Use host audio
        - WEBSMSD_PORT=${WEBSMSD_PORT-80}     # WEBSMSD internal port
      volumes:
-       - tele_conf:/srv                      # Persistent storage
-       - ./pulse:/run/pulse:rshared          # Use host audio
+       - tele_conf2:/srv                      # Persistent storage
+       - ./pulse2:/run/pulse:rshared          # Use host audio
        - /etc/localtime:/etc/localtime:ro    # Use host timezone     
      deploy:
        mode: replicated
-       replicas: 3
+       replicas: 1
      networks:
        local:
          aliases:
-           - asterisk.local
-     
+           - asterisk2.local
+
+   asterisk3:
+     image: fgst/asterisk:base
+     cap_add:
+       - sys_ptrace                          # Only here to help testing
+       - net_admin                           # Allow NFT, used by AutoBan
+       - net_raw                             # Allow NFT, used by AutoBan
+     environment:
+       - SYSLOG_LEVEL=${SYSLOG_LEVEL-4}      # Logging
+       - HOSTNAME=${TELE_SRV-tele}.${DOMAIN-docker.localhost}
+       - PULSE_SERVER=unix:/run/pulse/socket # Use host audio
+       - PULSE_COOKIE=/run/pulse/cookie      # Use host audio
+       - WEBSMSD_PORT=${WEBSMSD_PORT-80}     # WEBSMSD internal port
+     volumes:
+       - tele_conf3:/srv                      # Persistent storage
+       - ./pulse3:/run/pulse:rshared          # Use host audio
+       - /etc/localtime:/etc/localtime:ro    # Use host timezone     
+     deploy:
+       mode: replicated
+       replicas: 1
+     networks:
+       local:
+         aliases:
+           - asterisk3.local
+  
    
    kamailio_dispatcher:
      depends_on:
        - db
-       - asterisk
+       - asterisk1
+       - asterisk2
+       - asterisk3
      build:
       context: ${PWD}/kamailio
       dockerfile: Dockerfile
@@ -48,8 +122,6 @@ services:
      volumes:
        - /tmp/dbdata:/var/lib/mysql
        - ./containers/mysql/resources:/docker-entrypoint-initdb.d/
-     ports:
-       - "3306"
      environment:
        - MYSQL_ALLOW_EMPTY_PASSWORD=yes
        - MYSQL_USER=kamailio
@@ -69,4 +141,8 @@ networks:
 volumes:
   asterisk_conf:
   asterisk_spool:
-  tele_conf:
+  tele_conf_base:
+  tele_spool_base:
+  tele_conf1:
+  tele_conf2:
+  tele_conf3:
