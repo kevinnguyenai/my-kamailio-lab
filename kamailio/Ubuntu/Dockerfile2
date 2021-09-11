@@ -1,0 +1,56 @@
+#Kamailio Test Stuff
+FROM kamailio/kamailio:5.5.0-stretch
+
+# install additional package
+RUN apt-get update 
+RUN apt-get install -y curl ntpdate lsb-release locales htop \
+                    mc git gcc flex build-essential libglib2.0-dev \
+                    make libssl-dev libcurl4-openssl-dev make \
+                    libxml2-dev libpcre3-dev libexpat1-dev \
+                    mysql-client libunistring-dev apt-utils \
+		    libxmlrpc-core-c3-dev default-libmysqlclient-dev \
+		    libpcap-dev libpulse-dev libswresample-dev \
+		    libavformat-dev libspandsp-dev libevent-dev \
+		    libjson-glib-dev libavfilter-dev libiptc-dev \
+		    gperf libwebsockets-dev
+
+RUN apt-get -y install debhelper iptables-dev libcurl4-openssl-dev \
+		libpcre3-dev libxmlrpc-core-c3-dev markdown libavfilter-dev \
+		libavformat-dev libavresample-dev libevent-dev libglib2.0-dev \
+		libhiredis-dev libjson-glib-dev libpcap0.8-dev libpcap-dev \
+		libssl-dev dkms module-assistant nfs-common libb-hooks-op-check-perl \
+		libexporter-tidy-perl libbencode-perl libcrypt-rijndael-perl \
+		libdigest-hmac-perl libio-socket-inet6-perl libsocket6-perl
+
+
+WORKDIR /tmp
+
+## RTPProxy
+
+RUN apt-get install -y make git && \
+    git clone -b master https://github.com/sippy/rtpproxy.git && \
+    git -C rtpproxy submodule update --init --recursive && \
+    cd rtpproxy && \
+    ./configure && make && make install
+
+
+COPY rtpproxy /etc/init.d/
+
+RUN chmod 755 /etc/init.d/rtpproxy
+
+## RTPengine 
+
+RUN apt-get install -y certbot
+#RUN certbot certonly --standalone -d asterisk.local
+
+RUN apt-get install -y apt-transport-https ca-certificates
+
+RUN echo 'deb https://deb.sipwise.com/spce/mr7.4.2/ stretch main' > /etc/apt/sources.list.d/sipwise.list
+RUN echo 'deb-src https://deb.sipwise.com/spce/mr7.4.2/ stretch main' >> /etc/apt/sources.list.d/sipwise.list
+RUN wget -q -O - https://deb.sipwise.com/spce/sipwise.gpg | apt-key add -
+RUN apt-get update
+RUN apt-get install -y ngcp-keyring ngcp-rtpengine
+
+COPY ./etc/default/ngcp-rtpengine-daemon /etc/default/
+COPY ./etc/rtpengine/rtpengine.conf /etc/rtpengine/
+

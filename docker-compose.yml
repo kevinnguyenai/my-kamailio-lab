@@ -8,10 +8,10 @@ services:
        - tele_conf_base:/etc/asterisk/            # Persistent storage
        - tele_spool_base:/var/spool/asterisk/
        - /etc/localtime:/etc/localtime:ro    # Use host timezone       
-     ports:
-       - "5060:5060/udp"
-       - "5061:5061/tcp"
-       - "10000-10009:10000-10009/udp"
+     #ports:
+     #  - "5060:5060/tcp"
+     #  - "5060:5060/udp"
+     #  - "10030-10039:10030-10039/udp"
      deploy:
        mode: replicated
        replicas: 1
@@ -111,9 +111,12 @@ services:
        dockerfile: Dockerfile
      volumes:
        - dispatcher_conf:/etc/kamailio/
+     environment:
+       - PUBLIC_IP_ADDRESS=42.116.254.236
      ports:
        - "5060:5060/udp"
        - "5060:5060/tcp"
+       - "10030-10039:10030-10039/udp"
      restart: always
      networks:
        local:
