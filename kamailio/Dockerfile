@@ -1,13 +1,13 @@
 #Kamailio Test Stuff
 FROM fgst/kamailio:base
-
+#FROM kamailio/kamailio:5.4.6-xenial
 
 #Add Additional Modules
 RUN apt-get update && apt-get -y install net-tools libhiredis-dev procps
 
 #Copy the config file onto the Filesystem of the Docker instance
 COPY kamailio.cfg /etc/kamailio/
-COPY kamailio-base.cfg /etc/kamailio/
+COPY kamailio-basic.cfg /etc/kamailio/
 COPY kamailio-dispatcher.cfg /etc/kamailio/
 COPY dispatcher.list /etc/kamailio/
 COPY kamctlrc /etc/kamailio/

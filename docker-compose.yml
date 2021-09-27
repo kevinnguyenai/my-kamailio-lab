@@ -8,17 +8,17 @@ services:
        - tele_conf_base:/etc/asterisk/            # Persistent storage
        - tele_spool_base:/var/spool/asterisk/
        - /etc/localtime:/etc/localtime:ro    # Use host timezone       
-     #ports:
-     #  - "5060:5060/tcp"
-     #  - "5060:5060/udp"
-     #  - "10030-10039:10030-10039/udp"
+     ports:
+     #  - "5061:5061/tcp"
+     #  - "5062:5062/udp"
+       - "10030-10039:10030-10039/udp"
      deploy:
        mode: replicated
        replicas: 1
      networks:
        local:
          aliases:
-           - asterisk.local
+           - sip.oncx.cf
 
 
    asterisk1:
@@ -38,6 +38,7 @@ services:
        - ./pulse1:/run/pulse:rshared          # Use host audio
        - /etc/localtime:/etc/localtime:ro    # Use host timezone     
      ports:
+     #  - "5060:5060/udp"
        - "10000-10009:10000-10009/udp"
      deploy:
        mode: replicated
@@ -45,7 +46,7 @@ services:
      networks:
        local:
          aliases:
-           - asterisk1.local
+           - cs1.oncx.cf
 
    asterisk2:
      image: fgst/asterisk:base
@@ -71,7 +72,7 @@ services:
      networks:
        local:
          aliases:
-           - asterisk2.local
+           - cs2.oncx.cf
 
    asterisk3:
      image: fgst/asterisk:base
@@ -97,31 +98,30 @@ services:
      networks:
        local:
          aliases:
-           - asterisk3.local
+           - cs3.oncx.cf
   
    
    kamailio_dispatcher:
      depends_on:
        - db
-       - asterisk1
-       - asterisk2
-       - asterisk3
      build:
        context: ${PWD}/kamailio
        dockerfile: Dockerfile
      volumes:
-       - dispatcher_conf:/etc/kamailio/
+       - dispatcher_conf_base:/etc/kamailio/
      environment:
        - PUBLIC_IP_ADDRESS=42.116.254.236
      ports:
-       - "5060:5060/udp"
-       - "5060:5060/tcp"
-       - "10030-10039:10030-10039/udp"
+     #   - "5080:5080/udp"
+     #  - "5061:5061/udp"
+        - "5060:5060/udp"
+     #   - "5060:5060/tcp"
+     #  - "10030-10039:10030-10039/udp"
      restart: always
      networks:
        local:
          aliases:
-           - kamailio_dispatcher.local
+           - oncx.cf
 
    db:
      image: mysql:5.7
@@ -147,7 +147,7 @@ services:
 networks:
   local:
 volumes:
-  dispatcher_conf:
+  dispatcher_conf_base:
   asterisk_conf:
   asterisk_spool:
   tele_conf_base:
