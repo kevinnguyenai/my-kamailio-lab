@@ -1,0 +1,6 @@
+[submodule "homer5-docker"]
+	path = homer5-docker
+	url = https://github.com/sipcapture/homer5-docker.git
+[submodule "docker-asterisk"]
+	path = docker-asterisk
+	url = https://github.com/dougbtv/docker-asterisk.git
