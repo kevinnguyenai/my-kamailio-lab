@@ -1,20 +1,23 @@
 #Kamailio Test Stuff
-FROM kamailio/kamailio:5.5.0-stretch
+FROM ocpasia/kamailio:bullseye-5.6.0
+
+ENV DIST=bullseye
+ENV REL=latest
 
 # install additional package
 RUN apt-get update 
 RUN apt-get install -y curl ntpdate lsb-release locales htop \
-                    mc git gcc flex build-essential libglib2.0-dev \
-                    make libssl-dev libcurl4-openssl-dev make \
-                    libxml2-dev libpcre3-dev libexpat1-dev \
-                    mysql-client libunistring-dev apt-utils \
-		    libxmlrpc-core-c3-dev default-libmysqlclient-dev \
-		    libpcap-dev libpulse-dev libswresample-dev \
-		    libavformat-dev libspandsp-dev libevent-dev \
-		    libjson-glib-dev libavfilter-dev libiptc-dev \
-		    gperf libwebsockets-dev
+		mc git gcc flex build-essential libglib2.0-dev \
+		make libssl-dev libcurl4-openssl-dev make \
+		libxml2-dev libpcre3-dev libexpat1-dev \
+		default-mysql-client libunistring-dev apt-utils \
+		libxmlrpc-core-c3-dev default-libmysqlclient-dev \
+		libpcap-dev libpulse-dev libswresample-dev \
+		libavformat-dev libspandsp-dev libevent-dev \
+		libjson-glib-dev libavfilter-dev libiptc-dev \
+		gperf libwebsockets-dev
 
-RUN apt-get -y install debhelper iptables-dev libcurl4-openssl-dev \
+RUN apt-get -y install debhelper libcurl4-openssl-dev \
 		libpcre3-dev libxmlrpc-core-c3-dev markdown libavfilter-dev \
 		libavformat-dev libavresample-dev libevent-dev libglib2.0-dev \
 		libhiredis-dev libjson-glib-dev libpcap0.8-dev libpcap-dev \
@@ -38,18 +41,27 @@ COPY rtpproxy /etc/init.d/
 
 RUN chmod 755 /etc/init.d/rtpproxy
 
-## RTPengine 
+## RTPengine  - 
 
 RUN apt-get install -y certbot
 #RUN certbot certonly --standalone -d asterisk.local
 
 RUN apt-get install -y apt-transport-https ca-certificates
 
-RUN echo 'deb https://deb.sipwise.com/spce/mr7.4.2/ stretch main' > /etc/apt/sources.list.d/sipwise.list
-RUN echo 'deb-src https://deb.sipwise.com/spce/mr7.4.2/ stretch main' >> /etc/apt/sources.list.d/sipwise.list
-RUN wget -q -O - https://deb.sipwise.com/spce/sipwise.gpg | apt-key add -
+# https://dfx.at/rtpengine/
+# RUN wget https://rtpengine.dfx.at/latest/pool/main/r/rtpengine-dfx-repo-keyring/rtpengine-dfx-repo-keyring_1.0_all.deb
+# RUN dpkg -i rtpengine-dfx-repo-keyring_1.0_all.deb
+# RUN echo "deb [signed-by=/usr/share/keyrings/dfx.at-rtpengine-archive-keyring.gpg] https://rtpengine.dfx.at/$REL $DIST main" | sudo tee /etc/apt/sources.list.d/dfx.at-rtpengine.list
+# RUN apt install linux-headers-$(uname -r)
+# RUN sudo apt update && apt install rtpengine
+
+RUN echo 'deb https://deb.sipwise.com/spce/mr9.5.7/ bullseye main' > /etc/apt/sources.list.d/sipwise.list
+RUN echo 'deb-src https://deb.sipwise.com/spce/mr9.5.7/ bullseye main' >> /etc/apt/sources.list.d/sipwise.list
+#RUN wget -q -O - https://deb.sipwise.com/spce/sipwise.gpg | apt-key add -
+RUN wget -q -O - https://deb.sipwise.com/spce/keyring/sipwise-keyring-bootstrap.gpg | apt-key add -
 RUN apt-get update
-RUN apt-get install -y ngcp-keyring ngcp-rtpengine
+#RUN apt-get install -y ngcp-keyring ngcp-rtpengine
+RUN apt-get install -y ngcp-archive-keyring ngcp-deployment-scripts ngcp-rtpengine
 
 COPY ./etc/default/ngcp-rtpengine-daemon /etc/default/
 COPY ./etc/rtpengine/rtpengine.conf /etc/rtpengine/
