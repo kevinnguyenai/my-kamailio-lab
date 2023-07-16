@@ -4,3 +4,6 @@
 [submodule "docker-asterisk"]
 	path = docker-asterisk
 	url = https://github.com/dougbtv/docker-asterisk.git
+[submodule "kamailio-ci"]
+	path = kamailio-ci
+	url = https://github.com/kamailio/kamailio-ci.git
