@@ -1,0 +1,5 @@
+## git submodule ignore
+homer5-docker/**
+kamailio-ci/**
+docker-asterisk/**
+docker-opensips/**
