@@ -3,3 +3,12 @@ homer5-docker/**
 kamailio-ci/**
 docker-asterisk/**
 docker-opensips/**
+pkgs/freebswitch/**
+pkgs/kamailio/**
+pkgs/opensips/**
+pkgs/pjproject/**
+pkgs/rtpengine/**
+pkgs/rtpproxy/**
+pkgs/sofia-sip/**
+addons/asterisk/**
+addons/freeswitch-container/**
