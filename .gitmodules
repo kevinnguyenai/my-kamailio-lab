@@ -7,3 +7,32 @@
 [submodule "kamailio-ci"]
 	path = kamailio-ci
 	url = https://github.com/kamailio/kamailio-ci.git
+
+[submodule "addons/asterisk"]
+	path = addons/asterisk
+	url = https://github.com/andrius/asterisk
+
+[submodule "addons/freeswitch-container"]
+	path = addons/freeswitch-container
+	url = https://github.com/BetterVoice/freeswitch-container.git
+[submodule "pkgs/freeswitch"]
+	path = pkgs/freeswitch
+	url = https://github.com/signalwire/freeswitch.git
+[submodule "pkgs/pjproject"]
+	path = pkgs/pjproject
+	url = https://github.com/pjsip/pjproject.git
+[submodule "pkgs/opensips"]
+	path = pkgs/opensips
+	url = https://github.com/OpenSIPS/opensips.git
+[submodule "pkgs/kamailio"]
+	path = pkgs/kamailio
+	url = https://github.com/kamailio/kamailio.git
+[submodule "pkgs/sofia-sip"]
+	path = pkgs/sofia-sip
+	url = https://github.com/freeswitch/sofia-sip.git
+[submodule "pkgs/rtpengine"]
+	path = pkgs/rtpengine
+	url = https://github.com/sipwise/rtpengine.git
+[submodule "pkgs/rtpproxy"]
+	path = pkgs/rtpproxy
+	url = https://github.com/sippy/rtpproxy.git
