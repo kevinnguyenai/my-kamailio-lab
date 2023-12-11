@@ -4,6 +4,9 @@
 [submodule "docker-asterisk"]
 	path = docker-asterisk
 	url = https://github.com/dougbtv/docker-asterisk.git
+[submodule "docker-opensips"]
+	path = docker-opensips
+	url = https://github.com/OpenSIPS/docker-opensips.git
 [submodule "kamailio-ci"]
 	path = kamailio-ci
 	url = https://github.com/kamailio/kamailio-ci.git
