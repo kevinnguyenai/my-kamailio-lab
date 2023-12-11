@@ -51,3 +51,10 @@
 [submodule "ansible/ansible-role-rtpengine"]
 	path = ansible/ansible-role-rtpengine
 	url = https://github.com/drachtio/ansible-role-rtpengine.git
+
+[submodule "ansible/collections/mongodb"]
+	path = ansible/collections/mongodb
+	url = https://github.com/ansible-collections/community.mongodb.git
+[submodule "ansible/collections/general"]
+	path = ansible/collections/general
+	url = https://github.com/ansible-collections/community.general.git
