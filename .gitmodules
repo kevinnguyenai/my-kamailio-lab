@@ -39,3 +39,15 @@
 [submodule "pkgs/rtpproxy"]
 	path = pkgs/rtpproxy
 	url = https://github.com/sippy/rtpproxy.git
+[submodule "ansible/ansible-role-fsmrf"]
+	path = ansible/ansible-role-fsmrf
+	url = https://github.com/drachtio/ansible-role-fsmrf.git
+[submodule "ansible/ansible-role-drachtio"]
+	path = ansible/ansible-role-drachtio
+	url = https://github.com/drachtio/ansible-role-drachtio.git
+[submodule "ansible/ansible-role-nodejs"]
+	path = ansible/ansible-role-nodejs
+	url = https://github.com/drachtio/ansible-role-nodejs.git
+[submodule "ansible/ansible-role-rtpengine"]
+	path = ansible/ansible-role-rtpengine
+	url = https://github.com/drachtio/ansible-role-rtpengine.git
