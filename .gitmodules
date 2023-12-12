@@ -58,3 +58,6 @@
 [submodule "ansible_collections/general"]
 	path = ansible_collections/community/general
 	url = https://github.com/ansible-collections/community.general.git
+[submodule "ansible_collections/community/mysql"]
+	path = ansible_collections/community/mysql
+	url = https://github.com/ansible-collections/community.mysql.git
