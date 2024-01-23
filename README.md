@@ -23,3 +23,30 @@
 
 ## BUILD
 
+## TODO
+
+after clone repository to local machine do this
+
+`$ git submodule init`
+
+if you already clone and init submodule of projects , please update it with latest 
+
+`$ git submodule update --remote`
+
+### HOW TO DEPLOY LAB
+
+* [PLAYBOOKS][https://github.com/kevinnguyenai/my-kamailio-lab/tree/main/playbooks]
+    * [PLAYBOOK MEDIA PROXY (RTPENGINE)][https://github.com/kevinnguyenai/ansible-playbooks-voip/tree/3a2394c31ad3c8d03ee5967d50f5c166050e1730]
+    * [PlAYBOOK PROXY][]
+        * [KAMAILIO][]
+        * [OPENSIPS][]
+    * [PLAYBOOK PBX][]
+        * [ASTERISK][]
+        * [FREESWITCH][]
+        * [FUSIONPBX][]
+        * [FREEBSD]
+    * [LOADTEST SERVER][]
+        * [VOIP-PATROL]
+    * [MONITORING & METRICS][]
+        * [HOMER][]
+        * [Heplify-server][]
