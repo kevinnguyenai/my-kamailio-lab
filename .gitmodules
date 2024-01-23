@@ -54,3 +54,6 @@
 [submodule "playbooks/ansible-playbooks-voip"]
 	path = playbooks/ansible-playbooks-voip
 	url = https://github.com/kevinnguyenai/ansible-playbooks-voip
+[submodule "mlan-asterisk"]
+	path = asterisk/docker-asterisk
+	url = https://github.com/mlan/docker-asterisk.git
