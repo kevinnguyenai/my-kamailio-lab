@@ -50,4 +50,7 @@
 	url = https://github.com/drachtio/ansible-role-nodejs.git
 [submodule "ansible/ansible-role-rtpengine"]
 	path = ansible/ansible-role-rtpengine
-	url = https://github.com/drachtio/ansible-role-rtpengine.git
+	url = https://github.com/KevinAtLeap/ansible-role-rtpengine.git
+[submodule "playbooks/ansible-playbooks-voip"]
+	path = playbooks/ansible-playbooks-voip
+	url = https://github.com/kevinnguyenai/ansible-playbooks-voip
