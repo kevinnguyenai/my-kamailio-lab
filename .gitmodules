@@ -57,3 +57,7 @@
 [submodule "mlan-asterisk"]
 	path = asterisk/docker-asterisk
 	url = https://github.com/mlan/docker-asterisk.git
+[submodule "ansible/ansible-opensips"]
+	path = ansible/ansible-opensips
+	url = https://github.com/sccvn/ansible-opensips.git
+
